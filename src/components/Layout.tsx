@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Receipt, Tags, ChevronRight } from "lucide-react";
+import {
+  LayoutDashboard,
+  Receipt,
+  Tags,
+  ChevronRight,
+  Menu,
+  X,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useExpense } from "@/context/ExpenseContext";
 import LoadingSpinner from "./LoadingSpinner";
@@ -14,6 +21,8 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const { state } = useExpense();
+  const { logout } = useAuth();
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   const navItems = [
     {
@@ -32,9 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       icon: <Tags className="w-5 h-5" />,
     },
   ];
-  const { logout } = useAuth()
 
-  // Get current page name for the loading message
   const getCurrentPageName = () => {
     const currentPath = location.pathname;
     const currentItem = navItems.find((item) => item.path === currentPath);
@@ -49,13 +56,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-[#F5F5F7]">
-      {/* Sidebar/Navigation */}
-      <nav className="w-full fixed left-0 md:w-64 md:min-h-screen bg-white shadow-sm z-10">
-        <div className="p-6">
-          <h1 className="text-xl font-medium">Expense Tracker</h1>
-          <p className="text-muted-foreground text-sm">Manage your finances</p>
-        </div>
+      {/* Navbar Toggle Button */}
 
+      {/* Sidebar/Navigation */}
+      <nav
+        className={cn(
+          "fixed left-0 pt-24 h-full w-64 bg-white shadow-sm z-10 transform transition-transform md:translate-x-0",
+          isNavOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        )}
+      >
         <div className="px-3">
           {navItems.map((item) => (
             <Link
@@ -67,6 +76,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   ? "bg-expense-gray text-primary font-medium"
                   : "text-muted-foreground hover:bg-expense-gray hover:text-primary"
               )}
+              onClick={() => setIsNavOpen(false)}
             >
               {item.icon}
               <span>{item.label}</span>
@@ -83,12 +93,35 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <div className="w-[85%] fixed top-0 right-0 bg-white h-18 p-4 flex justify-end z-10">
-          <Button onClick={logout} className="group opacity-70 hover:opacity-100" size="sm" variant="ghost">
+        <div className="w-full fixed top-0 right-0 bg-white h-18 py-4 px-2 flex justify-between items-center z-10">
+          <div className="flex gap-2 ml-1 md:ml-0">
+            <button
+              className="md:hidden z-20"
+              onClick={() => setIsNavOpen(!isNavOpen)}
+            >
+              {isNavOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-10 h-10" />
+              )}
+            </button>
+            <div className="md:ml-4">
+              <h1 className="text-xl font-medium">Expense Tracker</h1>
+              <p className="text-muted-foreground text-sm">
+                Manage your finances
+              </p>
+            </div>
+          </div>
+          <Button
+            onClick={logout}
+            className="group opacity-70 hover:opacity-100"
+            size="sm"
+            variant="ghost"
+          >
             Logout
           </Button>
         </div>
-        <div className="p-4 md:p-8 max-w-6xl mt-20 ml-64 mx-auto animate-fade-in">
+        <div className="p-4 md:p-8 max-w-6xl mt-20 md:ml-64 mx-auto animate-fade-in">
           {children}
         </div>
       </main>

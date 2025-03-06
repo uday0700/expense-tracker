@@ -175,7 +175,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
         </div>
       )}
       
-      <div className="space-y-3">
+      <div className="space-y-2 md:space-y-3">
         {filteredTransactions.length > 0 ? (
           filteredTransactions.map((transaction) => (
             <TransactionCard
@@ -185,7 +185,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
             />
           ))
         ) : (
-          <Alert variant="default" className="bg-muted/50">
+          <Alert variant="default" className="bg-muted/50 text-sm md:text-base">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
               No transactions found. Try adjusting your filters or add a new transaction.

@@ -33,12 +33,12 @@ const ExpenseSummary: React.FC = () => {
   ];
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-5">
       {cards.map((card, index) => (
         <div 
           key={index} 
           className={cn(
-            "glass-card rounded-xl p-5 animate-scale-in",
+            "glass-card rounded-xl p-4 md:p-5 animate-scale-in",
             card.delay
           )}
         >
@@ -46,11 +46,11 @@ const ExpenseSummary: React.FC = () => {
             <h3 className="text-sm font-medium text-muted-foreground">
               {card.title}
             </h3>
-            <div className={cn("p-2 rounded-full", card.color)}>
+            <div className={cn("p-1.5 md:p-2 rounded-full", card.color)}>
               {card.icon}
             </div>
           </div>
-          <p className="text-2xl font-semibold">
+          <p className="text-xl md:text-2xl font-semibold">
             ${card.value.toFixed(2)}
           </p>
         </div>

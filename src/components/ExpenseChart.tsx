@@ -46,10 +46,10 @@ const ExpenseChart: React.FC = () => {
   };
   
   return (
-    <div className="glass-card rounded-xl p-5 animate-fade-in animation-delay-4">
-      <h3 className="text-lg font-medium mb-4">Expense by Category</h3>
+    <div className="glass-card rounded-xl p-4 md:p-5 animate-fade-in animation-delay-4">
+      <h3 className="text-base md:text-lg font-medium mb-3 md:mb-4">Expense by Category</h3>
       
-      <div className="h-[300px]">
+      <div className="h-[250px] md:h-[300px]">
         {displayData.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
